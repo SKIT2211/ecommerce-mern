@@ -8,7 +8,7 @@ import './App.css';
 import NotFound from './pages/NotFound';
 import ProductList from './pages/ProductList';
 import Checkout from './pages/Checkout';
-import { CartProvider } from './contexts/CardContext';
+import { CartProvider } from './contexts/CartContext';
 import CartPage from './pages/CartPage';
 
 export default function App() {

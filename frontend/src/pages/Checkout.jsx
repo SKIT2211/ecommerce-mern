@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCart } from '../contexts/CardContext';
+import { useCart } from '../hooks/useCart';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 

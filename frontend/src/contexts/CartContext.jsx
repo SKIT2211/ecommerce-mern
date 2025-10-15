@@ -1,22 +1,26 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { fetchCartService, addToCartService, updateCartService, removeFromCartService } from '../services/cartService';
+import { AuthContext } from './AuthProvider';
 
 const CartContext = createContext();
 
-export const useCart = () => useContext(CartContext);
-
-export const CartProvider = ({ children }) => {
+const CartProvider = ({ children }) => {
 	const [cart, setCart] = useState([]);
+
+	const { isAuthenticated, authChecked } = useContext(AuthContext);
 
 	const fetchCart = async () => {
 		const res = await fetchCartService();
 		if (res.success) setCart(res.data);
 		else setCart([]);
 	};
-
 	useEffect(() => {
-		fetchCart();
-	}, []);
+		if (authChecked && isAuthenticated) {
+			fetchCart();
+		} else if (authChecked && !isAuthenticated) {
+			setCart([]);
+		}
+	}, [authChecked, isAuthenticated]);
 
 	const addToCart = async (product, quantity = 1) => {
 		const res = await addToCartService(product._id, quantity);
@@ -53,3 +57,5 @@ export const CartProvider = ({ children }) => {
 		</CartContext.Provider>
 	);
 };
+
+export { CartProvider, CartContext };

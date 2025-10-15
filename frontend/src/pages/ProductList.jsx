@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchProductsService } from '../services/productService';
-import { useCart } from '../contexts/CardContext';
 import ProductCard from '../components/ProductCard';
 import Navbar from '../components/Navbar';
+import { useCart } from '../hooks/useCart';
 
 const ProductList = () => {
 	const [products, setProducts] = useState([]);

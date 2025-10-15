@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../contexts/CardContext';
 import Navbar from '../components/Navbar';
+import { useCart } from '../hooks/useCart';
 
 export default function CartPage() {
 	const { cart, updateCart, removeFromCart, total } = useCart();

@@ -19,7 +19,7 @@ export const loginUser = async (data) => {
 			message: response?.data?.message || 'Invalid credentials',
 		};
 	} catch (error) {
-		const message = error.response?.data?.message || error.message || 'Failed to login. Please try again.';
+		const message = error.response?.data?.error || error.message || 'Failed to login. Please try again.';
 		console.error('Login failed:', message);
 		return { success: false, message };
 	}

@@ -10,7 +10,6 @@ const addToCart = async (userId, { productId, quantity }) => {
   }
 
   let cart = await Cart.findOne({ user: userId });
-  console.log(cart);
   if (!cart) {
     cart = new Cart({ user: userId, items: [] });
   }
@@ -26,18 +25,24 @@ const addToCart = async (userId, { productId, quantity }) => {
   }
 
   await cart.save();
-  return cart;
+  const populatedCart = await cart.populate("items.product");
+  return populatedCart;
 };
 
 const updateCartItem = async (userId, productId, quantity) => {
-  const cart = await Cart.findOne({ user: userId });
+  const cart = await Cart.findOne({ user: userId }).populate("items.product");
   if (!cart) {
     const err = new Error("Cart not found");
     err.statusCode = 404;
     throw err;
   }
 
-  const item = cart.items.find((item) => item.product.toString() === productId);
+  const item = cart.items.find((item) => {
+    const id = item.product?._id
+      ? item.product._id.toString()
+      : item.product.toString();
+    return id === productId;
+  });
 
   if (!item) {
     const err = new Error("Product not found in cart");
@@ -58,12 +63,17 @@ const removeCartItem = async (userId, productId) => {
     throw err;
   }
 
-  cart.items = cart.items.filter(
-    (item) => item.product.toString() !== productId
-  );
+  cart.items = cart.items.filter((item) => {
+    const id = item.product?._id
+      ? item.product._id.toString()
+      : item.product.toString();
+    return id !== productId;
+  });
 
   await cart.save();
-  return cart;
+  const populatedCart = await cart.populate("items.product");
+
+  return populatedCart;
 };
 
 const getUserCart = async (userId) => {

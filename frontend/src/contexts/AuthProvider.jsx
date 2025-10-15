@@ -68,7 +68,7 @@ const AuthProvider = ({ children }) => {
 				logout: handleLogout,
 			}}
 		>
-			{children}
+			{!authChecked ? <div style={{ textAlign: 'center', marginTop: '2rem' }}>Loading...</div> : children}
 		</AuthContext.Provider>
 	);
 };

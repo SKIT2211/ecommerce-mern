@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { CarTaxiFront } from 'lucide-react';
-import { useCart } from '../contexts/CardContext';
+import { useCart } from '../hooks/useCart';
 
 export default function Navbar() {
 	const navigate = useNavigate();
